@@ -20,6 +20,7 @@ import android.view.WindowManager;
 public class MainActivity extends AppCompatActivity implements CvCameraViewListener2 {
 
     private static final String    TAG = "OpenCVTutorial2";
+    private static final int REQUEST_CAMERA_PERMISSION = 1;
 
     private static final int       VIEW_MODE_RGBA     = 0;
     private static final int       VIEW_MODE_GRAY     = 1;
@@ -106,24 +107,28 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
         }
     }
 
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if (mOpenCvCameraView != null)
             mOpenCvCameraView.disableView();
     }
 
+    @Override
     public void onCameraViewStarted(int width, int height) {
         mRgba = new Mat(height, width, CvType.CV_8UC4);
         mIntermediateMat = new Mat(height, width, CvType.CV_8UC4);
         mGray = new Mat(height, width, CvType.CV_8UC1);
     }
 
+    @Override
     public void onCameraViewStopped() {
         mRgba.release();
         mGray.release();
         mIntermediateMat.release();
     }
 
+    @Override
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         final int viewMode = mViewMode;
         switch (viewMode) {
@@ -152,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
         return mRgba;
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.i(TAG, "called onOptionsItemSelected; selected item: " + item);
 
